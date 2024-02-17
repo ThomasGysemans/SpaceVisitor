@@ -48,11 +48,7 @@
   $: setupEffectComposer($camera as PerspectiveCamera);
   $: composer.setSize($size.width, $size.height);
 
-  const numLights = 8; // the number of lights around the Sun (to make it look like the Sun is emitting the light in all directions)
-
-  let sunX = 0;
-  let sunY = 0;
-  let sunZ = 0;
+  const numLights = 7; // the number of lights around the Sun (to make it look like the Sun is emitting the light in all directions)
 
   onMount(() => {
     let before = autoRender.current;
@@ -81,16 +77,7 @@
   />
 {/each}
 
-<T.DirectionalLight
-  args={[0xffffff, 3]}
-  position.x={0}
-  position.y={0}
-  position.z={0}
-/>
-
-<T.AmbientLight intensity={0.1} />
-
-<T.Mesh position={[sunX, sunY, sunZ]}>
+<T.Mesh>
   <T.SphereGeometry args={[15, 32, 32]} />
   <T.MeshStandardMaterial color="yellow" />
 </T.Mesh>
