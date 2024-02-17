@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Vector3, type PerspectiveCamera, SphereGeometry } from "three";
+  import { type PerspectiveCamera, SphereGeometry } from "three";
   import { T, useTask, useThrelte } from "@threlte/core";
   import { useTexture } from "@threlte/extras";
   import { onMount } from "svelte";
@@ -50,9 +50,13 @@
   $: setupEffectComposer($camera as PerspectiveCamera);
   $: composer.setSize($size.width, $size.height);
 
-  const numLights = 7; // the number of lights around the Sun (to make it look like the Sun is emitting the light in all directions)
-  const geometry = new SphereGeometry(15, 32, 32);
+  const numLights = 10; // the number of lights around the Sun (to make it look like the Sun is emitting the light in all directions)
+  const radius = 15;
+  const extendedRadius = radius + 10; // the radius in which the lights will be placed evenly around the Sun
+  const geometry = new SphereGeometry(radius, 32, 32);
   const atmosphereShaderMat = fresnel({ rimHex: 0xffb300 });
+
+  const goldenRatio = (1 + Math.sqrt(5)) / 2;
 
   onMount(() => {
     let before = autoRender.current;
@@ -65,18 +69,17 @@
   }, { stage: renderStage, autoInvalidate: false });
 </script>
 
-{#each Array(numLights) as _, i (i + "-sun-dir-light")}
-  {@const phi = Math.acos(-1 + (2 * i) / numLights)}
-  {@const theta = Math.sqrt(numLights * Math.PI) * phi}
-  {@const x = Math.cos(theta) * Math.sin(phi)}
-  {@const y = Math.sin(theta) * Math.sin(phi)}
-  {@const z = Math.cos(phi)}
-  {@const position = new Vector3(x, y, z).normalize()}
-  <T.DirectionalLight
-    args={[0xffffff, 3]}
-    position.x={position.x}
-    position.y={position.y}
-    position.z={position.z}
+{#each Array(numLights) as _, i (i + "-sun-light")}
+  {@const theta = 2 * Math.PI * i / goldenRatio}
+  {@const phi = Math.acos(1 - 2 * i / numLights)}
+  {@const x = extendedRadius * Math.sin(phi) * Math.cos(theta)}
+  {@const y = extendedRadius * Math.sin(phi) * Math.sin(theta)}
+  {@const z = extendedRadius * Math.cos(phi)}
+  <T.PointLight
+    args={[0xffffff, 20, 300, 0.7]}
+    position.x={x}
+    position.y={y}
+    position.z={z}
     castShadow
   />
 {/each}

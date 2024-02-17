@@ -4,6 +4,7 @@
   import { INITIAL_FOV } from '$lib/constants';
   import Spaceship from './Spaceship.svelte';
   import Sun from './Sun.svelte';
+  import Earth from './Earth.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -14,3 +15,4 @@
 <Sun />
 <Stars />
 <Spaceship />
+<Earth />
