@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { Vector3, type PerspectiveCamera } from "three";
+  import { Vector3, type PerspectiveCamera, SphereGeometry } from "three";
   import { T, useTask, useThrelte } from "@threlte/core";
+  import { useTexture } from "@threlte/extras";
   import { onMount } from "svelte";
+  import fresnel from "$lib/fresnel";
   import {
     EffectComposer,
     EffectPass,
@@ -11,7 +13,6 @@
     BloomEffect,
     KernelSize
   } from 'postprocessing';
-  import { useTexture } from "@threlte/extras";
 
   const { scene, renderer, camera, size, renderStage, autoRender } = useThrelte();
 
@@ -50,6 +51,8 @@
   $: composer.setSize($size.width, $size.height);
 
   const numLights = 7; // the number of lights around the Sun (to make it look like the Sun is emitting the light in all directions)
+  const geometry = new SphereGeometry(15, 32, 32);
+  const atmosphereShaderMat = fresnel({ rimHex: 0xffb300 });
 
   onMount(() => {
     let before = autoRender.current;
@@ -58,11 +61,11 @@
   });
 
   useTask((delta) => {
-    composer.render(delta)
+    composer.render(delta);
   }, { stage: renderStage, autoInvalidate: false });
 </script>
 
-{#each Array(numLights) as _, i (i + "-directional-light")}
+{#each Array(numLights) as _, i (i + "-sun-dir-light")}
   {@const phi = Math.acos(-1 + (2 * i) / numLights)}
   {@const theta = Math.sqrt(numLights * Math.PI) * phi}
   {@const x = Math.cos(theta) * Math.sin(phi)}
@@ -78,9 +81,15 @@
   />
 {/each}
 
-<T.Mesh>
-  <T.SphereGeometry args={[15, 32, 32]} />
-  {#await useTexture("/textures/sun/sun2k.jpg") then value}
-    <T.MeshStandardMaterial color="yellow" map={value} />
-  {/await}
-</T.Mesh>
+<T.Group>
+  <T.Mesh>
+    <T is={geometry} />
+    {#await useTexture("/textures/sun/sun2k.jpg") then value}
+      <T.MeshStandardMaterial color="yellow" map={value} />
+    {/await}
+  </T.Mesh>
+  <T.Mesh on:create={({ref}) => ref.scale.setScalar(1.025)}>
+    <T is={geometry} />
+    <T is={atmosphereShaderMat} />
+  </T.Mesh>
+</T.Group>
