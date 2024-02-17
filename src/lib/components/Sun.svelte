@@ -11,6 +11,7 @@
     BloomEffect,
     KernelSize
   } from 'postprocessing';
+  import { useTexture } from "@threlte/extras";
 
   const { scene, renderer, camera, size, renderStage, autoRender } = useThrelte();
 
@@ -79,5 +80,7 @@
 
 <T.Mesh>
   <T.SphereGeometry args={[15, 32, 32]} />
-  <T.MeshStandardMaterial color="yellow" />
+  {#await useTexture("/textures/sun/sun2k.jpg") then value}
+    <T.MeshStandardMaterial color="yellow" map={value} />
+  {/await}
 </T.Mesh>
