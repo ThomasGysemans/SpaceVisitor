@@ -1,10 +1,17 @@
 import { Vector3, type PerspectiveCamera } from "three";
 import { browser } from "$app/environment";
-import { INITIAL_FOV, INITIAL_SPACESHIP_POS, SPACESHIP_SPEED } from "./constants";
+import { INITIAL_FOV, INITIAL_SPACESHIP_POS, INITIAL_SPACESHIP_SPEED } from "./constants";
 
 type Controls = { [key: string]: boolean }
 
 export let controls: Controls = {};
+
+let maxVelocity = 0.04;
+let jawVelocity = 0;
+let pitchVelocity = 0;
+let turbo = 0;
+let stopping = false;
+let spaceshipSpeed = INITIAL_SPACESHIP_SPEED;
 
 if (browser) {
   window.addEventListener("keydown", e => {
@@ -12,7 +19,17 @@ if (browser) {
   });
   
   window.addEventListener("keyup", e => {
-    controls[e.key.toLowerCase()] = false;
+    const key = e.key.toLowerCase();
+    controls[key] = false;
+
+    if (key === "x") {
+      if (stopping) {
+        console.log("accelerating");
+      } else {
+        console.log("stopping");
+      }
+      stopping = !stopping;
+    }
   });
 }
 
@@ -20,15 +37,11 @@ function easeOutQuad(x: number) {
   return 1 - (1 - x) * (1 - x);
 }
 
-let maxVelocity = 0.04;
-let jawVelocity = 0;
-let pitchVelocity = 0;
-let turbo = 0;
-
 export function updateSpaceshipAxis(x: Vector3, y: Vector3, z: Vector3, spaceshipPosition: Vector3, camera: PerspectiveCamera) {
   jawVelocity *= 0.95;
   pitchVelocity *= 0.95;
 
+  // Basically it forces the value to remain in the interval [-maxVelocity, maxVelocity]
   if (Math.abs(jawVelocity) > maxVelocity) {
     jawVelocity = Math.sign(jawVelocity) * maxVelocity;
   }
@@ -53,6 +66,12 @@ export function updateSpaceshipAxis(x: Vector3, y: Vector3, z: Vector3, spaceshi
     pitchVelocity -= 0.0025;
   }
 
+  if (stopping) {
+    spaceshipSpeed *= 0.97; // at every frame the ship will slow down by 3%
+  } else {
+    spaceshipSpeed = INITIAL_SPACESHIP_SPEED;
+  }
+
   // to reset the spaceship
   if (controls["r"]) {
     jawVelocity = 0;
@@ -74,7 +93,7 @@ export function updateSpaceshipAxis(x: Vector3, y: Vector3, z: Vector3, spaceshi
   y.normalize();
   z.normalize();
 
-  if (controls.shift) {
+  if (controls.shift && !stopping) {
     turbo += 0.025;
   } else {
     turbo *= 0.95;
@@ -85,5 +104,5 @@ export function updateSpaceshipAxis(x: Vector3, y: Vector3, z: Vector3, spaceshi
   camera.fov = INITIAL_FOV + turboSpeed * 900;
   camera.updateProjectionMatrix();
 
-  spaceshipPosition.add(z.clone().multiplyScalar(-SPACESHIP_SPEED - turboSpeed));
+  spaceshipPosition.add(z.clone().multiplyScalar(-spaceshipSpeed - turboSpeed));
 }

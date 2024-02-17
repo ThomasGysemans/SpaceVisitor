@@ -34,7 +34,7 @@
     const phongMat = new MeshPhongMaterial();
     phongMat.map = map;
     phongMat.normalMap = normalMap;
-    phongMat.normalScale.set(20, 20);
+    phongMat.normalScale.set(10, 10);
     return phongMat;
   }
 
