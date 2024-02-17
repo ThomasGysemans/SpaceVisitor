@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type PerspectiveCamera, SphereGeometry } from "three";
+  import { type PerspectiveCamera, SphereGeometry, Mesh } from "three";
   import { T, useTask, useThrelte } from "@threlte/core";
   import { useTexture } from "@threlte/extras";
   import { onMount } from "svelte";
@@ -58,6 +58,8 @@
 
   const goldenRatio = (1 + Math.sqrt(5)) / 2;
 
+  let sun: Mesh;
+
   onMount(() => {
     let before = autoRender.current;
     autoRender.set(false);
@@ -66,6 +68,7 @@
 
   useTask((delta) => {
     composer.render(delta);
+    sun.rotation.y += 0.03 * delta;
   }, { stage: renderStage, autoInvalidate: false });
 </script>
 
@@ -85,7 +88,7 @@
 {/each}
 
 <T.Group>
-  <T.Mesh>
+  <T.Mesh bind:ref={sun}>
     <T is={geometry} />
     {#await useTexture("/textures/sun/sun2k.jpg") then value}
       <T.MeshStandardMaterial color="yellow" map={value} />
