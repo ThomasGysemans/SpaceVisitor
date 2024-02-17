@@ -10,5 +10,5 @@
   stencil: false,
   depth: false,
 }}>
-  <DebugScene />
+  <Scene />
 </Canvas>
