@@ -2,7 +2,7 @@
   import { T } from '@threlte/core'
   import { OrbitControls } from '@threlte/extras'
   import { INITIAL_FOV } from '$lib/constants';
-  import Earth from '../Earth.svelte';
+  import Earth from '../planets/Earth.svelte';
 </script>
 
 <T.PerspectiveCamera
