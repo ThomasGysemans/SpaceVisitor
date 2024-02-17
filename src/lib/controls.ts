@@ -80,6 +80,7 @@ export function updateSpaceshipAxis(x: Vector3, y: Vector3, z: Vector3, spaceshi
     x.set(1, 0, 0);
     y.set(0, 1, 0);
     z.set(0, 0, 1);
+    stopping = false;
     spaceshipPosition.set(INITIAL_SPACESHIP_POS.x, INITIAL_SPACESHIP_POS.y, INITIAL_SPACESHIP_POS.z);
   }
 
