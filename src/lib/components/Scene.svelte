@@ -6,6 +6,7 @@
   import Sun from './Sun.svelte';
   import Earth from './planets/Earth.svelte';
   import Mercury from './planets/Mercury.svelte';
+  import Venus from './planets/Venus.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -18,3 +19,4 @@
 <Spaceship />
 <Earth />
 <Mercury />
+<Venus />
