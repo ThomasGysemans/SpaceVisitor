@@ -1,0 +1,16 @@
+<script lang="ts">
+  import { T } from '@threlte/core'
+  import { Stars } from '@threlte/extras'
+  import { INITIAL_FOV } from '$lib/constants';
+  import Spaceship from './Spaceship.svelte';
+  import Sun from './Sun.svelte';
+</script>
+
+<T.PerspectiveCamera
+  makeDefault
+  fov={INITIAL_FOV}
+/>
+
+<Sun />
+<Stars />
+<Spaceship />
