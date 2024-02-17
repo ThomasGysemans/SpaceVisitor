@@ -8,6 +8,9 @@
   export let x: number;
   export let y: number;
   export let z: number;
+
+  export let min = -100;
+  export let max = 100;
 </script>
 
 <Pane
@@ -16,24 +19,8 @@
   x={tabPos[0]}
   y={tabPos[1]}
 >
-  <Text value="pos X" />
-  <Slider
-    bind:value={x}
-    min={-50}
-    max={50}
-  />
-  <Text value="pos Y" />
-  <Slider
-    bind:value={y}
-    min={-50}
-    max={50}
-  />
-  <Text value="pos Z" />
-  <Slider
-    bind:value={z}
-    min={-50}
-    max={50}
-  />
+  <Text value="Position X Y Z" />
+  <Slider bind:value={x} {min} {max} />
+  <Slider bind:value={y} {min} {max} />
+  <Slider bind:value={z} {min} {max} />
 </Pane>
-
-

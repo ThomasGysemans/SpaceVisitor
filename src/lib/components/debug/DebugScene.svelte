@@ -2,7 +2,7 @@
   import { T } from '@threlte/core'
   import { OrbitControls } from '@threlte/extras'
   import { INITIAL_FOV } from '$lib/constants';
-  import Earth from '../planets/Earth.svelte';
+  import Mercury from '../planets/Mercury.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -15,4 +15,4 @@
 
 <T.DirectionalLight position={[-2, 0.5, 1.5]} />
 
-<Earth />
+<Mercury />

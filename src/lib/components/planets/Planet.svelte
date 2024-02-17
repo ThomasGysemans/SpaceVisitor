@@ -1,11 +1,11 @@
 <script lang="ts">
   import { T, useLoader, useTask } from '@threlte/core';
-  import { AdditiveBlending, IcosahedronGeometry, Mesh, MeshPhongMaterial, Texture, TextureLoader } from 'three';
+  import { AdditiveBlending, IcosahedronGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, Texture, TextureLoader } from 'three';
   import fresnel from '$lib/fresnel';
 
   interface PlanetTextures {
     map: string;
-    normalMap: string;
+    normalMap?: string;
     lights?: string;
     clouds?: string;
   }
@@ -13,10 +13,10 @@
   export let x: number;
   export let y: number;
   export let z: number;
-  export let tilt: number;
+  export let tiltDegrees: number;
   export let radius: number;
   export let rotationSpeed: number;
-  export let cloudsRotationSpeed: number;
+  export let cloudsRotationSpeed: number | undefined = undefined;
   export let atmosphere: boolean = false;
   export let atmosphereColor: number | undefined = undefined;
   export let texturesPaths: PlanetTextures;
@@ -30,17 +30,21 @@
   let planet: Mesh;
   let clouds: Mesh;
 
-  function createPhongMaterial(map: Texture, normalMap: Texture): MeshPhongMaterial {
-    const phongMat = new MeshPhongMaterial();
-    phongMat.map = map;
-    phongMat.normalMap = normalMap;
-    phongMat.normalScale.set(10, 10);
-    return phongMat;
+  function createPlanetMat(map: Texture, normalMap?: Texture) {
+    if (normalMap) {
+      const phongMat = new MeshPhongMaterial();
+      phongMat.map = map;
+      phongMat.normalMap = normalMap;
+      phongMat.normalScale.set(10, 10);
+      return phongMat;
+    } else {
+      return new MeshStandardMaterial({ map });
+    }
   }
 
   useTask((delta) => {
     if (planet != undefined) planet.rotation.y += rotationSpeed * delta;
-    if (clouds != undefined) clouds.rotation.y += cloudsRotationSpeed * delta;
+    if (clouds != undefined && cloudsRotationSpeed != undefined) clouds.rotation.y += cloudsRotationSpeed * delta;
   });
 </script>
 
@@ -48,13 +52,13 @@
   position={[x, y, z]}
 >
   {#await textures then texture}
-    {@const phongMat = createPhongMaterial(texture.map, texture.normalMap)}
+    {@const planetMat = createPlanetMat(texture.map, texture.normalMap)}
     <T.Mesh
       bind:ref={planet}
-      rotation.z={tilt}
+      rotation.z={tiltDegrees * Math.PI / 180}
     >
       <T is={geometry} />
-      <T is={phongMat} />
+      <T is={planetMat} />
       {#if texturesPaths.lights != undefined}
         <T.Mesh>
           <T is={geometry} />
