@@ -2,6 +2,10 @@
   import App from '$lib/components/App.svelte'
 </script>
 
+<svelte:head>
+  <title>Space Visitor</title>
+</svelte:head>
+
 <div>
   <App />
 </div>
