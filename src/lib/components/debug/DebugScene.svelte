@@ -3,6 +3,7 @@
   import { OrbitControls } from '@threlte/extras'
   import { INITIAL_FOV } from '$lib/constants';
   import Uranus from '../planets/Uranus.svelte';
+  import Neptune from '../planets/Neptune.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -17,4 +18,4 @@
   position={[-20, 5, 15]}
 />
 
-<Uranus />
+<Neptune />

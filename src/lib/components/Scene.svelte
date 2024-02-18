@@ -11,6 +11,7 @@
   import Jupiter from './planets/Jupiter.svelte';
   import Saturn from './planets/Saturn.svelte';
   import Uranus from './planets/Uranus.svelte';
+  import Neptune from './planets/Neptune.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -31,3 +32,4 @@
 <Jupiter />
 <Saturn />
 <Uranus />
+<Neptune />

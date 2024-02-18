@@ -1,9 +1,9 @@
 import { Vector3 } from "three";
 
 export const INITIAL_FOV = 60;
-export const INITIAL_SPACESHIP_SPEED = 0.9;
+export const INITIAL_SPACESHIP_SPEED = 0.2;
 export const INITIAL_SPACESHIP_POS = new Vector3(0, 400, 0);
-export const SOLAR_SYSTEM_RADIUS = 4000;
+export const SOLAR_SYSTEM_RADIUS = 6000;
 export const SECONDS_PER_YEAR = 365.25 * 24 * 60 * 60;
 export const SIMULATION_SPEED_SCALE = 10000; // the game simulates the speed of the solar system multiplied by this factor
 export const AU = 200; // 1 AU is around 150 000 000 kilometers, here 200 units is 1 AU.
