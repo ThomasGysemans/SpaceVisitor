@@ -3,7 +3,7 @@
   import { T } from '@threlte/core'
   import { useTask, useThrelte } from "@threlte/core";
   import { updateSpaceshipAxis } from "$lib/controls";
-  import { INITIAL_SPACESHIP_POS } from "$lib/constants";
+  import { INITIAL_SPACESHIP_POS, SPACESHIP_SCALE, THIRD_PERSON_CAMERA_POSITION } from "$lib/constants";
   import SpaceshipModel from "./models/spaceship.svelte";
 
   const x = new Vector3(1, 0, 0);
@@ -45,7 +45,7 @@
         .multiply(new Matrix4().makeTranslation(spaceshipPosition.x, spaceshipPosition.y, spaceshipPosition.z)) // move camera to the center of the spaceship
         .multiply(delayedRotMatrix) // follow the rotation of the spaceship with a delay (17.5% delay)
         .multiply(new Matrix4().makeRotationX(-0.2)) // rotate camera so that it looks at the spaceship from above
-        .multiply(new Matrix4().makeTranslation(0, 1, 4)); // move the camera away from the spaceship
+        .multiply(new Matrix4().makeTranslation(THIRD_PERSON_CAMERA_POSITION)); // move the camera away from the spaceship
       
       camera.current.matrixAutoUpdate = false;
       camera.current.matrix.copy(cameraMatrix);
@@ -60,5 +60,5 @@
   position.y={spaceshipPosition.y}
   position.z={spaceshipPosition.z}
 >
-  <SpaceshipModel rotation.y={4.72} />
+  <SpaceshipModel rotation.y={3/2 * Math.PI} scale={[SPACESHIP_SCALE, SPACESHIP_SCALE, SPACESHIP_SCALE]} />
 </T.Group>

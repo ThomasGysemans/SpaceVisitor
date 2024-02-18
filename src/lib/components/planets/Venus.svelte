@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { EARTH_RADIUS } from "$lib/constants";
   import Planet from "./Planet.svelte";
-
+  
+  const radius = EARTH_RADIUS * 0.95;
   const orbitData = {
     semiMajorAxis: 0.723,
     eccentricity: 0.0068,
@@ -10,8 +12,8 @@
 
 <Planet
   includeLineThroughPoles
-  orbitData={orbitData}
-  radius={3.8}
+  {orbitData}
+  {radius}
   rotationSpeed={0.1}
   tiltRadians={0.046}
   texturesPaths={{

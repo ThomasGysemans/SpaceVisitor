@@ -13,6 +13,7 @@
     BloomEffect,
     KernelSize
   } from 'postprocessing';
+    import { SUN_RADIUS } from "$lib/constants";
 
   const { scene, renderer, camera, size, renderStage, autoRender } = useThrelte();
 
@@ -49,7 +50,7 @@
   $: setupEffectComposer($camera as PerspectiveCamera);
   $: composer.setSize($size.width, $size.height);
 
-  const geometry = new SphereGeometry(15, 32, 32);
+  const geometry = new SphereGeometry(SUN_RADIUS, 32, 32);
   const atmosphereShaderMat = fresnel({ rimHex: 0xffb300 });
 
   let sun: Mesh;

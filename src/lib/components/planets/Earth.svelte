@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { EARTH_RADIUS } from "$lib/constants";
   import Planet from "./Planet.svelte";
 
   const orbitData = {
@@ -11,7 +12,7 @@
 <Planet
   includeLineThroughPoles
   orbitData={orbitData}
-  radius={4}
+  radius={EARTH_RADIUS}
   atmosphere
   rotationSpeed={0.1}
   cloudsRotationSpeed={-0.05}
