@@ -8,6 +8,7 @@
   import Mercury from './planets/Mercury.svelte';
   import Venus from './planets/Venus.svelte';
   import Mars from './planets/Mars.svelte';
+  import Jupiter from './planets/Jupiter.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -24,3 +25,4 @@
 <Venus />
 <Earth />
 <Mars />
+<Jupiter />

@@ -2,6 +2,7 @@
   import { type PerspectiveCamera, SphereGeometry, Mesh } from "three";
   import { T, useTask, useThrelte } from "@threlte/core";
   import { useTexture } from "@threlte/extras";
+  import { SUN_RADIUS } from "$lib/constants";
   import { onMount } from "svelte";
   import fresnel from "$lib/fresnel";
   import {
@@ -13,7 +14,6 @@
     BloomEffect,
     KernelSize
   } from 'postprocessing';
-    import { SUN_RADIUS } from "$lib/constants";
 
   const { scene, renderer, camera, size, renderStage, autoRender } = useThrelte();
 
@@ -67,7 +67,7 @@
   }, { stage: renderStage, autoInvalidate: false });
 </script>
 
-<T.PointLight args={[0xffffff, 7, 0, 0]} />
+<T.PointLight args={[0xffffff, 4, 0, 0]} />
 
 <T.Group>
   <T.Mesh bind:ref={sun}>
