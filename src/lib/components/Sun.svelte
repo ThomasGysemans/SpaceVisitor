@@ -73,7 +73,7 @@
   <T.Mesh bind:ref={sun}>
     <T is={geometry} />
     {#await useTexture("/textures/sun/sun2k.jpg") then value}
-      <T.MeshBasicMaterial map={value} />
+      <T.MeshStandardMaterial emissiveMap={value} emissive={0xffd700} emissiveIntensity={6} />
     {/await}
   </T.Mesh>
   <T.Mesh on:create={({ref}) => ref.scale.setScalar(1.025)}>

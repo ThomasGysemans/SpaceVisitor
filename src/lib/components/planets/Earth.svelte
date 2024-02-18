@@ -19,6 +19,7 @@
     map: "/textures/earth/2k_earth_daymap.jpg",
     lights: "/textures/earth/2k_earth_nightmap.jpg",
     clouds: "/textures/earth/2k_earth_clouds.jpg",
-    normalMap: "textures/earth/2k_earth_normal_map.jpg"
+    normalMap: "textures/earth/2k_earth_normal_map.jpg",
+    specularMap: "textures/earth/2k_earth_specular_map.jpg"
   }}
 />

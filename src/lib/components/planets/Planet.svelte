@@ -6,6 +6,7 @@
   interface PlanetTextures {
     map: string;
     normalMap?: string;
+    specularMap?: string;
     lights?: string;
     clouds?: string;
   }
@@ -30,12 +31,16 @@
   let planet: Mesh;
   let clouds: Mesh;
 
-  function createPlanetMat(map: Texture, normalMap?: Texture) {
+  function createPlanetMat(map: Texture, normalMap?: Texture, specularMap?: Texture) {
     if (normalMap) {
       const phongMat = new MeshPhongMaterial();
       phongMat.map = map;
       phongMat.normalMap = normalMap;
       phongMat.normalScale.set(10, 10);
+      if (specularMap) {
+        phongMat.specularMap = specularMap;
+        phongMat.shininess = 100;
+      }
       return phongMat;
     } else {
       return new MeshStandardMaterial({ map });
@@ -52,7 +57,7 @@
   position={[x, y, z]}
 >
   {#await textures then texture}
-    {@const planetMat = createPlanetMat(texture.map, texture.normalMap)}
+    {@const planetMat = createPlanetMat(texture.map, texture.normalMap, texture.specularMap)}
     <T.Mesh
       bind:ref={planet}
       rotation.z={tiltDegrees * Math.PI / 180}
