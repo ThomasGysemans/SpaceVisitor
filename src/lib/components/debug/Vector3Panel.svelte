@@ -9,8 +9,8 @@
   export let y: number;
   export let z: number;
 
-  export let min = -100;
-  export let max = 100;
+  export let min = -200;
+  export let max = 200;
 </script>
 
 <Pane

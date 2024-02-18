@@ -1,11 +1,15 @@
 <script lang="ts">
   import Planet from "./Planet.svelte";
+
+  let x = -20;
+  let y = 58;
+  let z = -35;
 </script>
 
 <Planet
-  x={-20}
-  y={58}
-  z={-35}
+  x={x}
+  y={y}
+  z={z}
   radius={4}
   atmosphere
   rotationSpeed={0.1}
