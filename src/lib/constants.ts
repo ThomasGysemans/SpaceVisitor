@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
 
 export const INITIAL_FOV = 60;
-export const INITIAL_SPACESHIP_SPEED = 0.2;
+export const INITIAL_SPACESHIP_SPEED = 0.3;
 export const INITIAL_SPACESHIP_POS = new Vector3(0, 400, 0);
 export const SOLAR_SYSTEM_RADIUS = 6000;
 export const SECONDS_PER_YEAR = 365.25 * 24 * 60 * 60;

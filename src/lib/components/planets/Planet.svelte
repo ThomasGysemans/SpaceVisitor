@@ -15,12 +15,6 @@
     ring?: string;
   }
 
-  interface OrbitData {
-    semiMajorAxis: number; // in AU
-    eccentricity: number;
-    yearsPerRevolution: number; // number of Earth years for a complete revolution around the sun
-  }
-
   export let tiltRadians: number;
   export let radius: number;
   export let rotationSpeed: number;
@@ -38,7 +32,7 @@
   });
 
   const geometry = new IcosahedronGeometry(radius, 12);
-  const orbit = orbitData != undefined ? createOrbitPath(orbitData.semiMajorAxis, orbitData.eccentricity) : undefined;
+  const orbit = orbitData != undefined ? createOrbitPath({...orbitData}) : undefined;
   const orbitSpeed = orbitData != undefined ? calculateOrbitSpeed() : 0;
 
   let system: Group;

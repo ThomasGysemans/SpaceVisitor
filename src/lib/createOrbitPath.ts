@@ -8,15 +8,27 @@ import { AU, BARYCENTER_OFFSET } from "./constants";
  * @param lineColor The color of the orbit's line.
  */
 export default function(
-  semiMajorAxis: number,
-  eccentricity: number,
-  lineColor: number = 0x333333
+  {
+    lineColor = 0x33333,
+    semiMajorAxis,
+    eccentricity,
+    radiusX = 0,
+    radiusY = 0
+  }: EllipseData = {}
 ): { orbitLine: Line, curve: EllipseCurve } {
-  const minorAxis = semiMajorAxis * Math.sqrt(1 - eccentricity ** 2); // height of the ellipse in real AU, which is the shortest distance from the center of the orbit.
-  const curve = new EllipseCurve(
-    BARYCENTER_OFFSET, 0, // center x, y
-    semiMajorAxis * AU, minorAxis * AU, // radius x, radius y
-  );
+  let curve: EllipseCurve;
+  if (semiMajorAxis != undefined && eccentricity != undefined) {
+    const minorAxis = semiMajorAxis * Math.sqrt(1 - eccentricity ** 2); // height of the ellipse in real AU, which is the shortest distance from the center of the orbit.
+    curve = new EllipseCurve(
+      BARYCENTER_OFFSET, 0, // center x, y
+      semiMajorAxis * AU, minorAxis * AU, // radius x, radius y
+    );
+  } else {
+    curve = new EllipseCurve(
+      0, 0, // center x, y
+      radiusX, radiusY, // radius x, radius y
+    );
+  }
 
   const p = curve.getSpacedPoints(200);
   const geometry = new BufferGeometry().setFromPoints(p);

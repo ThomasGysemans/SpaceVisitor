@@ -8,6 +8,18 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	interface EllipseData {
+		semiMajorAxis?: number; // in AU
+		eccentricity?: number; 
+		lineColor?: number;
+		radiusX?: number;
+		radiusY?: number;
+	}
+
+	interface OrbitData extends EllipseData {
+    yearsPerRevolution: number; // number of Earth years for a complete revolution around the sun
+  }
 }
 
 export {};
