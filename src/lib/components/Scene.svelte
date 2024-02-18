@@ -1,7 +1,7 @@
 <script lang="ts">
   import { T } from '@threlte/core'
   import { Stars } from '@threlte/extras'
-  import { INITIAL_FOV } from '$lib/constants';
+  import { INITIAL_FOV, SOLAR_SYSTEM_RADIUS } from '$lib/constants';
   import Spaceship from './Spaceship.svelte';
   import Sun from './Sun.svelte';
   import Earth from './planets/Earth.svelte';
@@ -14,8 +14,9 @@
   fov={INITIAL_FOV}
 />
 
+<Stars radius={SOLAR_SYSTEM_RADIUS} />
+
 <Sun />
-<Stars />
 <Spaceship />
 <Earth />
 <Mercury />

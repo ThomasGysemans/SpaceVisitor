@@ -52,7 +52,7 @@
 
   const numLights = 10; // the number of lights around the Sun (to make it look like the Sun is emitting the light in all directions)
   const radius = 15;
-  const extendedRadius = radius + 10; // the radius in which the lights will be placed evenly around the Sun
+  const extendedRadius = radius + 15; // the radius in which the lights will be placed evenly around the Sun
   const geometry = new SphereGeometry(radius, 32, 32);
   const atmosphereShaderMat = fresnel({ rimHex: 0xffb300 });
 
