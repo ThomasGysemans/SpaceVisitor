@@ -1,6 +1,6 @@
 <script lang="ts">
   import { T, useLoader, useTask } from '@threlte/core';
-  import { AdditiveBlending, Group, IcosahedronGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, Texture, TextureLoader } from 'three';
+  import { AdditiveBlending, DoubleSide, Group, IcosahedronGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, RingGeometry, Texture, TextureLoader } from 'three';
   import { SECONDS_PER_YEAR, SIMULATION_SPEED_SCALE } from '$lib/constants';
   import createLineThroughPoles from '$lib/createLineThroughPoles';
   import createOrbitPath from '$lib/createOrbitPath';
@@ -12,6 +12,7 @@
     specularMap?: string;
     lights?: string;
     clouds?: string;
+    ring?: string;
   }
 
   interface OrbitData {
@@ -30,6 +31,7 @@
   export let texturesPaths: PlanetTextures;
   export let includeLineThroughPoles: boolean = false;
   export let orbitData: OrbitData | undefined = undefined;
+  export let ringScale: number | undefined = undefined;
 
   const textures = useLoader(TextureLoader).load({
     ...texturesPaths
@@ -60,6 +62,17 @@
     }
   }
 
+  function createRingMesh(texture: Texture) {
+    const mat = new MeshStandardMaterial({ map: texture, transparent: true, side: DoubleSide });
+    const geo = new RingGeometry(10, 30, 64);
+    const mesh = new Mesh(geo, mat);
+    mesh.rotation.z = tiltRadians;
+    mesh.rotateX(-Math.PI/2);
+    mesh.scale.set(ringScale ?? 1, ringScale ?? 1, ringScale ?? 1);
+
+    return mesh;
+  }
+
   function calculateOrbitSpeed() {
     return (1 / (orbitData!.yearsPerRevolution * SECONDS_PER_YEAR)) * SIMULATION_SPEED_SCALE;
   }
@@ -80,12 +93,13 @@
 </script>
 
 <T.Group>
-  <T.Group bind:ref={system}>
+  <T.Group bind:ref={system} >
     {#await textures then texture}
       {@const planetMat = createPlanetMat(texture.map, texture.normalMap, texture.specularMap)}
       <T.Mesh
         bind:ref={planetMesh}
         rotation.z={tiltRadians}
+        castShadow
       >
         <T is={geometry} />
         <T is={planetMat} />
@@ -107,6 +121,9 @@
           <T is={geometry} />
           <T is={fresnel({ rimHex: atmosphereColor, scale: atmosphereScale })} />
         </T.Mesh>
+      {/if}
+      {#if texture.ring != undefined}
+        <T is={createRingMesh(texture.ring)} />
       {/if}
     {/await}
     {#if includeLineThroughPoles}

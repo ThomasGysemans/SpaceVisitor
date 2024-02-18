@@ -9,14 +9,17 @@
   import Venus from './planets/Venus.svelte';
   import Mars from './planets/Mars.svelte';
   import Jupiter from './planets/Jupiter.svelte';
+  import Saturn from './planets/Saturn.svelte';
+  import Uranus from './planets/Uranus.svelte';
 </script>
 
 <T.PerspectiveCamera
   makeDefault
   fov={INITIAL_FOV}
+  far={SOLAR_SYSTEM_RADIUS * 3}
 />
 
-<Stars radius={SOLAR_SYSTEM_RADIUS} />
+<Stars radius={SOLAR_SYSTEM_RADIUS} fade={false} depth={100} factor={50} />
 
 <Spaceship />
 
@@ -26,3 +29,5 @@
 <Earth />
 <Mars />
 <Jupiter />
+<Saturn />
+<Uranus />
