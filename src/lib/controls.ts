@@ -23,11 +23,6 @@ if (browser) {
     controls[key] = false;
 
     if (key === "x") {
-      if (stopping) {
-        console.log("accelerating");
-      } else {
-        console.log("stopping");
-      }
       stopping = !stopping;
     }
   });

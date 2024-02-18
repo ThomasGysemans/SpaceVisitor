@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type PerspectiveCamera, SphereGeometry, Mesh, PointLight } from "three";
+  import { type PerspectiveCamera, SphereGeometry, Mesh } from "three";
   import { T, useTask, useThrelte } from "@threlte/core";
   import { useTexture } from "@threlte/extras";
   import { onMount } from "svelte";
@@ -16,7 +16,6 @@
 
   const { scene, renderer, camera, size, renderStage, autoRender } = useThrelte();
 
-  // Adapt the default WebGLRenderer: https://github.com/pmndrs/postprocessing#usage
   const composer = new EffectComposer(renderer);
 
   const setupEffectComposer = (camera: PerspectiveCamera) => {

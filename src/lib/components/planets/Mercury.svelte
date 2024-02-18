@@ -1,26 +1,19 @@
 <script lang="ts">
-  import Vector3Panel from "../debug/Vector3Panel.svelte";
   import Planet from "./Planet.svelte";
 
-  let x = -62;
-  let y = -10;
-  let z = -30;
+  const orbitData = {
+    semiMajorAxis: 0.39,
+    eccentricity: 0.2056,
+    yearsPerRevolution: 0.24,
+  };
 </script>
 
-<!-- <Vector3Panel
-  title="Earth position"
-  bind:x={x}
-  bind:y={y}
-  bind:z={z}
-/> -->
-
 <Planet
-  x={-50}
-  y={0}
-  z={0}
+  includeLineThroughPoles
+  orbitData={orbitData}
   radius={3}
   rotationSpeed={0.1}
-  tiltDegrees={3.1}
+  tiltRadians={0.41}
   texturesPaths={{
     map: "/textures/mercury/2k_mercury.jpg",
   }}

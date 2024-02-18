@@ -1,20 +1,21 @@
 <script lang="ts">
   import Planet from "./Planet.svelte";
 
-  let x = -20;
-  let y = 58;
-  let z = -35;
+  const orbitData = {
+    semiMajorAxis: 1,
+    eccentricity: 0.0167,
+    yearsPerRevolution: 1
+  };
 </script>
 
 <Planet
-  x={x}
-  y={y}
-  z={z}
+  includeLineThroughPoles
+  orbitData={orbitData}
   radius={4}
   atmosphere
   rotationSpeed={0.1}
   cloudsRotationSpeed={-0.05}
-  tiltDegrees={-23.4}
+  tiltRadians={0.409}
   texturesPaths={{
     map: "/textures/earth/2k_earth_daymap.jpg",
     lights: "/textures/earth/2k_earth_nightmap.jpg",
