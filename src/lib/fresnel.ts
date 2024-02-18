@@ -1,12 +1,12 @@
 import { AdditiveBlending, Color, ShaderMaterial } from "three";
 
 // https://www.youtube.com/watch?v=FntV9iEJ0tU
-export default function({rimHex = 0x0088ff, facingHex = 0x000000} = {}) {
+export default function({rimHex = 0x0088ff, facingHex = 0x000000, scale = 2.0} = {}) {
   const uniforms = {
     color1: { value: new Color(rimHex) },
     color2: { value: new Color(facingHex) },
     fresnelBias: { value: 0.1 },
-    fresnelScale: { value: 2.0 },
+    fresnelScale: { value: scale },
     fresnelPower: { value: 4.0 },
   };
   const vs = `

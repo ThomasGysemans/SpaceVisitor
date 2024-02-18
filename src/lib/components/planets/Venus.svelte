@@ -15,7 +15,7 @@
   {orbitData}
   {radius}
   rotationSpeed={0.1}
-  tiltRadians={0.046}
+  tiltRadians={2.64}
   texturesPaths={{
     map: "/textures/venus/2k_venus_atmosphere.jpg",
   }}

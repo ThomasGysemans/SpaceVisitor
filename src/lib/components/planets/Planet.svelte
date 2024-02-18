@@ -26,6 +26,7 @@
   export let cloudsRotationSpeed: number | undefined = undefined;
   export let atmosphere: boolean = false;
   export let atmosphereColor: number | undefined = undefined;
+  export let atmosphereScale: number | undefined = undefined;
   export let texturesPaths: PlanetTextures;
   export let includeLineThroughPoles: boolean = false;
   export let orbitData: OrbitData | undefined = undefined;
@@ -104,7 +105,7 @@
       {#if atmosphere}
         <T.Mesh on:create={({ref}) => ref.scale.setScalar(1.025)}>
           <T is={geometry} />
-          <T is={fresnel({ rimHex: atmosphereColor })} />
+          <T is={fresnel({ rimHex: atmosphereColor, scale: atmosphereScale })} />
         </T.Mesh>
       {/if}
     {/await}

@@ -7,6 +7,7 @@
   import Earth from './planets/Earth.svelte';
   import Mercury from './planets/Mercury.svelte';
   import Venus from './planets/Venus.svelte';
+  import Mars from './planets/Mars.svelte';
 </script>
 
 <T.PerspectiveCamera
@@ -16,8 +17,10 @@
 
 <Stars radius={SOLAR_SYSTEM_RADIUS} />
 
-<Sun />
 <Spaceship />
-<Earth />
+
+<Sun />
 <Mercury />
 <Venus />
+<Earth />
+<Mars />
