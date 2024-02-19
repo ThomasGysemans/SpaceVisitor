@@ -11,7 +11,6 @@
 </script>
 
 <Planet
-  includeLineThroughPoles
   atmosphere
   atmosphereColor={0xffb3a3}
   atmosphereScale={0.5}

@@ -11,7 +11,6 @@
 </script>
 
 <Planet
-  includeLineThroughPoles
   {orbitData}
   {radius}
   rotationSpeed={0.1}
