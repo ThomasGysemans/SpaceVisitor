@@ -13,6 +13,7 @@
 </script>
 
 <Planet
+  uniqueId="Earth"
   orbitData={earthOrbitData}
   radius={EARTH_RADIUS}
   atmosphere

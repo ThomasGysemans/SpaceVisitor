@@ -1,4 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
+
+import type { Vector3 } from "three";
+
 // for information about these interfaces
 declare global {
 	namespace App {
@@ -20,6 +23,11 @@ declare global {
 	interface OrbitData extends EllipseData {
     yearsPerRevolution: number; // number of Earth years for a complete revolution around the sun
   }
+
+	interface PlanetData {
+		position: Vector3;
+		radius: number;
+	}
 }
 
 export {};

@@ -11,6 +11,7 @@
 </script>
 
 <Planet
+  uniqueId="Venus"
   {orbitData}
   {radius}
   rotationSpeed={0.1}

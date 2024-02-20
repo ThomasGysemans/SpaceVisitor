@@ -11,6 +11,7 @@
 </script>
 
 <Planet
+  uniqueId="Uranus"
   {radius}
   {orbitData}
   ringScale={1.5}

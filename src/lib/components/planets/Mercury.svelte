@@ -11,6 +11,7 @@
 </script>
 
 <Planet
+  uniqueId="Mercury"
   {orbitData}
   {radius}
   rotationSpeed={0.1}

@@ -1,7 +1,8 @@
 <script lang="ts">
   import { T, useLoader, useTask } from '@threlte/core';
-  import { AdditiveBlending, DoubleSide, Group, IcosahedronGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, RingGeometry, Texture, TextureLoader } from 'three';
+  import { AdditiveBlending, DoubleSide, Group, IcosahedronGeometry, Mesh, MeshPhongMaterial, MeshStandardMaterial, RingGeometry, Texture, TextureLoader, Vector3 } from 'three';
   import { SECONDS_PER_YEAR, SIMULATION_SPEED_SCALE } from '$lib/constants';
+  import { planetsStore } from "$lib/stores/planets"
   import createLineThroughPoles from '$lib/createLineThroughPoles';
   import createOrbitPath from '$lib/createOrbitPath';
   import fresnel from '$lib/fresnel';
@@ -15,6 +16,7 @@
     ring?: string;
   }
 
+  export let uniqueId: string | undefined = undefined;
   export let tiltRadians: number;
   export let radius: number;
   export let rotationSpeed: number;
@@ -71,6 +73,15 @@
     return (1 / (orbitData!.yearsPerRevolution * SECONDS_PER_YEAR)) * SIMULATION_SPEED_SCALE;
   }
 
+  function savePlanetData() {
+    if (uniqueId) {
+      planetsStore.update((m) => {
+        m.set(uniqueId!, { radius, position: new Vector3() })
+        return m;
+      });
+    }
+  }
+
   useTask((delta) => {
     // Handle rotation of the planet on its own axis.
     // The clouds have a different rotation so that it looks more dynamic.
@@ -82,18 +93,26 @@
       const p = orbit.curve.getPoint(orbitPosition);
       system.position.x = p.x;
       system.position.z = p.y;
+      
+      if (uniqueId) {
+        planetsStore.update((m) => {
+          m.get(uniqueId!)!.position = system.position;
+          return m;
+        });
+      }
     }
   });
 </script>
 
-<T.Group>
-  <T.Group bind:ref={system} >
+<T.Group on:create={savePlanetData}>
+  <T.Group bind:ref={system}>
     {#await textures then texture}
       {@const planetMat = createPlanetMat(texture.map, texture.normalMap, texture.specularMap)}
       <T.Mesh
         bind:ref={planetMesh}
         rotation.z={tiltRadians}
         castShadow
+        userData={atmosphere ? undefined : {uniqueId}}
       >
         <T is={geometry} />
         <T is={planetMat} />
@@ -103,7 +122,7 @@
             <T.MeshStandardMaterial map={texture.lights} blending={AdditiveBlending} />
           </T.Mesh>
         {/if}
-        {#if texturesPaths.clouds != undefined}
+        {#if texture.clouds != undefined}
           <T.Mesh bind:ref={cloudsMesh} on:create={({ref}) => ref.scale.setScalar(1.01) }>
             <T is={geometry} />
             <T.MeshStandardMaterial map={texture.clouds} blending={AdditiveBlending} transparent opacity={0.5} />
@@ -111,7 +130,7 @@
         {/if}
       </T.Mesh>
       {#if atmosphere}
-        <T.Mesh on:create={({ref}) => ref.scale.setScalar(1.025)}>
+        <T.Mesh on:create={({ref}) => ref.scale.setScalar(1.025)} userData={{uniqueId}}>
           <T is={geometry} />
           <T is={fresnel({ rimHex: atmosphereColor, scale: atmosphereScale })} />
         </T.Mesh>

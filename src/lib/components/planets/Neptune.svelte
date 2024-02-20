@@ -11,6 +11,7 @@
 </script>
 
 <Planet
+  uniqueId="Neptune"
   {radius}
   {orbitData}
   ringScale={1.5}

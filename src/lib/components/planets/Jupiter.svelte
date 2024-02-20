@@ -11,6 +11,7 @@
 </script>
 
 <Planet
+  uniqueId="Jupiter"
   {radius}
   {orbitData}
   rotationSpeed={0.1}
