@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { Vector3, type Group, Matrix4, PerspectiveCamera, Quaternion } from "three";
-  import { T } from '@threlte/core'
-  import { useTask, useThrelte } from "@threlte/core";
+  import { Vector3, type Group, Matrix4, PerspectiveCamera, Quaternion, Euler } from "three";
   import { updateSpaceshipAxis } from "$lib/controls";
-  import { INITIAL_SPACESHIP_POS, SPACESHIP_SCALE, THIRD_PERSON_CAMERA_POSITION } from "$lib/constants";
+  import { SPACESHIP_SCALE, THIRD_PERSON_CAMERA_POSITION } from "$lib/constants";
+  import { useTask, useThrelte } from "@threlte/core";
+  import { playerPosition } from "$lib/stores/player";
+  import { T } from '@threlte/core'
   import SpaceshipModel from "./models/spaceship.svelte";
 
   const x = new Vector3(1, 0, 0);
@@ -14,16 +15,15 @@
 
   const { camera } = useThrelte();
 
-  let spaceshipPosition = INITIAL_SPACESHIP_POS.clone();
   let spaceship: Group;
 
   useTask(() => {
     if (spaceship != undefined) {
-      updateSpaceshipAxis(x, y, z, spaceshipPosition, camera.current as PerspectiveCamera);
+      updateSpaceshipAxis(x, y, z, $playerPosition, camera.current as PerspectiveCamera);
 
       const rotMatrix = new Matrix4().makeBasis(x, y, z);
       const matrix = new Matrix4()
-        .multiply(new Matrix4().makeTranslation(spaceshipPosition.x, spaceshipPosition.y, spaceshipPosition.z))
+        .multiply(new Matrix4().makeTranslation($playerPosition.x, $playerPosition.y, $playerPosition.z))
         .multiply(rotMatrix);
     
       spaceship.matrixAutoUpdate = false;
@@ -42,7 +42,7 @@
       delayedRotMatrix.makeRotationFromQuaternion(delayedQuaternion);
 
       const cameraMatrix = new Matrix4()
-        .multiply(new Matrix4().makeTranslation(spaceshipPosition.x, spaceshipPosition.y, spaceshipPosition.z)) // move camera to the center of the spaceship
+        .multiply(new Matrix4().makeTranslation($playerPosition.x, $playerPosition.y, $playerPosition.z)) // move camera to the center of the spaceship
         .multiply(delayedRotMatrix) // follow the rotation of the spaceship with a delay (17.5% delay)
         .multiply(new Matrix4().makeRotationX(-0.2)) // rotate camera so that it looks at the spaceship from above
         .multiply(new Matrix4().makeTranslation(THIRD_PERSON_CAMERA_POSITION)); // move the camera away from the spaceship
@@ -56,9 +56,9 @@
 
 <T.Group
   bind:ref={spaceship}
-  position.x={spaceshipPosition.x}
-  position.y={spaceshipPosition.y}
-  position.z={spaceshipPosition.z}
+  position.x={$playerPosition.x}
+  position.y={$playerPosition.y}
+  position.z={$playerPosition.z}
 >
   <SpaceshipModel rotation.y={3/2 * Math.PI} scale={[SPACESHIP_SCALE, SPACESHIP_SCALE, SPACESHIP_SCALE]} />
 </T.Group>
